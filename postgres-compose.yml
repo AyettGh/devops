@@ -10,11 +10,14 @@ services:
     volumes:
       - keycloak-postgres-data:/var/lib/postgresql/data
     networks:
-      - externe
+      - my_network:
+          -ipv4_address: 127.25.128.5
 
 volumes:
   keycloak-postgres-data:
 
 networks:
-  externe:
-    external: true
+  my_network:
+    ipam:
+      config:
+        -subnet: 172.25.128.0/24
