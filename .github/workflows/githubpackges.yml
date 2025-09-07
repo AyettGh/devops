@@ -14,7 +14,7 @@ jobs:
         uses: docker/metadata-action@v5
         with:
           images: |
-            ghcr.io/ayett327/devops/astonvilla
+            ghcr.io/ayett327/devops
           tags: |
             type=ref,event=branch #seance3
             type=ref,event=pr  #feature-x  exp: pr-2 2 fois sar el pull request
