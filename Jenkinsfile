@@ -17,7 +17,7 @@ git url :'https://github.com/AyettGh/devops.git' , branch: 'seance4'
 }
 stage("build docker image"){
 steps{
-sh "docker build  -t ayett327/astonvillajenkins:1.1.${env.BUILD_NUMBER}  . "
+sh "docker build -t ayett327/astonvillajenkins:1.1.${env.BUILD_NUMBER} . "
 }
 }
 stage("login to docker hub"){
