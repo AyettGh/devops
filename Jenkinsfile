@@ -30,8 +30,7 @@ stage("owasp check scan"){
 steps{
 dependencyCheck additionalArguments: '' , odcInstallation: 'DP-CHECK'
 dependencyCheckPublisher  pattern: '**/dependency-check-report.xml'
-}
-}
+}}
 stage("push"){
 steps{
 sh "docker push ayett327/astonvillajenkins:1.1.${env.BUILD_NUMBER} "
