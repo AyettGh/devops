@@ -1,10 +1,52 @@
-pipeline {
+
+pipeline{
+environment{
+DOCKERHUB_CREDENTIALS= credentials('docker')
+}
 agent any
-stages {
-stage('greeting'){
+stages{
+stage("clean up"){
 steps{
-  sh 'echo "hello from github"'
+deleteDir()
 }
 }
+stage("checkout"){
+steps{
+git url :'https://github.com/AyettGh/devops.git' , branch: 'seance4'
 }
 }
+stage("build docker image"){
+steps{
+sh "docker build  -t ayett327/astonvillajenkins:1.1.${env.BUILD_NUMBER}  . "
+}
+}
+stage("login to docker hub"){
+steps{
+sh "echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin"
+}
+}
+
+stage("owasp check scan"){
+steps{
+dependencyCheck additionalArguments: '' , odcInstallation: 'DP-CHECK'
+dependencyCheckPublisher  pattern; '**/dependency-check-report.xml'
+}
+}
+
+stage("push"){
+steps{
+sh "docker push ayett327/astonvillajenkins:1.1.${env.BUILD_NUMBER} "
+sh "docker image rm  ayett327/astonvillajenkins:1.1.${env.BUILD_NUMBER}"
+}}
+}
+}
+// pipeline {
+// agent any
+// stages{
+// stage('greeting'){
+// steps{
+//   sh 'echo "hello from github"'
+// }
+// }
+// }
+// }
